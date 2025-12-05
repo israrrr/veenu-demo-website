@@ -122,6 +122,6 @@ This project uses a client-side API key injection for demonstration purposes. In
 
 ### Portfolio: LinkTree https://linktr.ee/israr._.ahmed
 
-### Email: i.israr.ahmed08@gmail.com
+### Email: i.israrahmed08@gmail.com
 
 If you liked this project, please give it a ⭐!
