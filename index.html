@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="VEENU - Premium Highway Dining on Indore Bypass. Experience food that feels like home.">
+    <title>VEENU | Taste the Journey</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- GSAP (Animation) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Lenis (Smooth Scroll) - Updated to stable bundled version -->
+    <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        'brand-saffron': '#f28c28',
+                        'brand-brown': '#4A3B32',
+                        'brand-beige': '#FDFBF7',
+                        'brand-dark': '#1a1a1a',
+                    },
+                    backgroundImage: {
+                        'pattern-overlay': "url('pattern01.png')"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Lenis Recommended CSS */
+        html.lenis,
+        body.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        /* Custom Styles */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .clip-image {
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .clip-image.active {
+            clip-path: inset(0 0 0 0);
+        }
+
+        /* Menu Grid Hover Effect */
+        .menu-item:hover .menu-img {
+            transform: scale(1.1);
+        }
+
+        .menu-item:hover .menu-overlay {
+            opacity: 1;
+        }
+
+        /* Bouncing Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FDFBF7;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* AI Chat Widget */
+        .chat-bubble {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        /* Markdown Styles within Chat */
+        .ai-response strong {
+            font-weight: 700;
+            color: #f28c28;
+        }
+
+        .ai-response em {
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .ai-response ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .ai-response li {
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+
+<body class="bg-brand-beige text-brand-brown overflow-x-hidden">
+
+    <!-- Preloader -->
+    <div class="loader">
+        <svg class="w-24 h-24 animate-bounce" viewBox="0 0 150.47 88.15">
+            <path fill="#f28c28"
+                d="M63.46,63.46,75.24,75.24a44.08,44.08,0,1,1,0-62.33L24.68,63.46a27.43,27.43,0,0,0,38.78,0Z" />
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-6 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-8 py-4 shadow-lg"
+            id="nav-inner">
+            <a href="#" class="text-2xl font-display font-black tracking-wider text-brand-saffron">VEENU</a>
+
+            <div class="hidden md:flex gap-8 text-sm font-bold uppercase tracking-widest text-brand-brown">
+                <a href="#about" class="hover:text-brand-saffron transition">Our Story</a>
+                <a href="#menu" class="hover:text-brand-saffron transition">Menu</a>
+                <a href="#ambiance" class="hover:text-brand-saffron transition">Vibe</a>
+            </div>
+
+            <a href="#location"
+                class="bg-brand-brown text-white px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-brand-saffron transition duration-300">
+                Visit Us
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative w-full h-screen overflow-hidden flex items-center justify-center">
+        <div class="absolute inset-0 w-full h-full bg-black">
+            <video src="assets/interior.webm" autoplay muted loop playsinline
+                class="w-full h-full object-cover opacity-60"></video>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+        </div>
+
+        <div class="relative z-10 text-center text-white px-4">
+            <div class="reveal-up mb-4 flex items-center justify-center gap-3">
+                <span class="h-[1px] w-12 bg-brand-saffron"></span>
+                <span class="text-brand-saffron text-xs font-bold uppercase tracking-[0.3em]">Indore Bypass</span>
+                <span class="h-[1px] w-12 bg-brand-saffron"></span>
+            </div>
+
+            <h1
+                class="reveal-up font-display font-black text-6xl md:text-8xl lg:text-9xl mb-6 tracking-tight leading-none">
+                TASTE THE<br>
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-brand-saffron to-yellow-500">JOURNEY</span>
+            </h1>
+
+            <p class="reveal-up max-w-xl mx-auto text-lg md:text-xl font-light text-gray-200 mb-10">
+                More than a stopover. A culinary destination where heritage recipes meet highway comfort.
+            </p>
+
+            <div class="reveal-up flex flex-col md:flex-row gap-4 justify-center">
+                <a href="#menu"
+                    class="bg-brand-saffron text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-brand-saffron transition duration-300">
+                    View Menu
+                </a>
+                <a href="#location"
+                    class="border border-white/30 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-white hover:text-brand-brown transition duration-300">
+                    Get Directions
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTRO / ABOUT -->
+    <section id="about" class="py-24 px-6 md:px-12 bg-brand-beige relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full opacity-5 bg-[url('pattern03.png')]"></div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl clip-image-trigger">
+                    <img src="assets/vcr2.webp" alt="Chef/Founder" class="w-full h-full object-cover clip-image active">
+                </div>
+                <div class="absolute -bottom-10 -right-10 bg-white p-6 rounded-xl shadow-xl hidden md:block">
+                    <p class="font-display font-black text-4xl text-brand-saffron">100%</p>
+                    <p class="text-xs font-bold uppercase tracking-widest text-gray-500">Fresh Ingredients</p>
+                </div>
+            </div>
+
+            <div class="reveal-scroll">
+                <span class="text-brand-saffron font-bold text-xs tracking-[0.2em] uppercase mb-4 block">Our
+                    Philosophy</span>
+                <h2 class="text-4xl md:text-6xl font-display font-black text-brand-brown mb-8 leading-tight">
+                    Food That Feels <br> Like <span
+                        class="text-brand-saffron underline decoration-4 underline-offset-4">Home.</span>
+                </h2>
+                <p class="text-xl text-gray-600 font-light mb-6 leading-relaxed">
+                    We believe the highway shouldn't mean compromising on quality. At VEENU, we bring the warmth of a
+                    family kitchen to your journey.
+                </p>
+                <p class="text-gray-500 mb-10 leading-relaxed">
+                    From our signature teas to robust curries, every dish is crafted with patience and love. We are the
+                    pause button on your fast-paced travel.
+                </p>
+
+                <div class="grid grid-cols-2 gap-8 border-t border-brand-brown/10 pt-8">
+                    <div>
+                        <h4 class="font-display font-bold text-xl mb-1">Authentic</h4>
+                        <p class="text-xs text-gray-400">Traditional Recipes</p>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-bold text-xl mb-1">Fresh</h4>
+                        <p class="text-xs text-gray-400">Farm to Table</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU HIGHLIGHTS -->
+    <section id="menu" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-black text-brand-brown mb-4">Curated Favorites</h2>
+                <p class="text-gray-500">A sneak peek into our kitchen</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[600px]">
+                <!-- Item 1 (Large) -->
+                <div
+                    class="md:col-span-2 md:row-span-2 relative group rounded-3xl overflow-hidden cursor-pointer menu-item shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=1971&auto=format&fit=crop"
+                        alt="Signature Curry" class="w-full h-full object-cover transition duration-700 menu-img">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-500"></div>
+                    <div class="absolute bottom-0 left-0 p-8 text-white">
+                        <h3 class="text-3xl font-display font-bold mb-2">Signature Masala Curry</h3>
+                        <p class="text-sm opacity-90 font-light">Rich, creamy, and spiced to perfection.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative group rounded-3xl overflow-hidden cursor-pointer menu-item shadow-lg">
+                    <img src="assets/vcr-exterior.webp" alt="Tea Point"
+                        class="w-full h-full object-cover transition duration-700 menu-img">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-500"></div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white">
+                        <h3 class="text-xl font-display font-bold">The Chai Point</h3>
+                        <p class="text-xs opacity-90">Refresh & Recharge</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative group rounded-3xl overflow-hidden cursor-pointer menu-item shadow-lg">
+                    <img src="assets/Spice Saffron2.webp"
+                        alt="Dessert" class="w-full h-full object-cover transition duration-700 menu-img">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition duration-500"></div>
+                    <div class="absolute bottom-0 left-0 p-6 text-white">
+                        <h3 class="text-xl font-display font-bold">Artisan Desserts</h3>
+                        <p class="text-xs opacity-90">Sweet endings</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <button
+                    class="border-2 border-brand-brown text-brand-brown px-10 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-brand-brown hover:text-white transition duration-300">
+                    Download Full Menu
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- AMBIANCE -->
+    <section id="ambiance" class="py-24 bg-brand-dark text-brand-beige relative overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <img src="assets/pattern01.webp" class="w-full h-full object-cover mix-blend-overlay">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div class="reveal-scroll">
+                <span class="text-brand-saffron font-bold text-xs tracking-[0.2em] uppercase mb-4 block">The Vibe</span>
+                <h2 class="text-4xl md:text-6xl font-display font-black mb-6">Designed for <br> Comfort.</h2>
+                <p class="text-gray-400 text-lg font-light leading-relaxed mb-8">
+                    An interior that balances the rustic charm of earthenware with modern aesthetics. Whether you are
+                    with family or taking a solo break, find your corner at VEENU.
+                </p>
+                <div class="flex items-center gap-4">
+                    <div
+                        class="w-16 h-16 rounded-full bg-brand-saffron/20 flex items-center justify-center text-brand-saffron">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 01-1-1V8a1 1 0 00-1-1 1 1 0 00-1 1v3a1 1 0 01-1 1m24 0a1 1 0 01-1-1V8a1 1 0 00-1-1 1 1 0 00-1 1v3a1 1 0 01-1 1m-10 0a1 1 0 01-1-1V7a1 1 0 00-1-1 1 1 0 00-1 1v4a1 1 0 01-1 1m-7 0a1 1 0 01-1-1V7a1 1 0 00-1-1 1 1 0 00-1 1v4a1 1 0 01-1 1">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white">Family Seating</p>
+                        <p class="text-xs text-gray-500 uppercase">Available</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 group aspect-video">
+                <video src="assets/logo-vid.webm" autoplay muted loop playsinline
+                    class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500"></video>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div
+                        class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center pl-1 group-hover:scale-110 transition duration-300">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & FOOTER -->
+    <section id="location" class="bg-brand-brown text-brand-beige py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div
+                class="bg-white/5 rounded-3xl p-8 md:p-12 border border-white/10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="bg-gray-800 rounded-2xl overflow-hidden relative h-64 md:h-full group">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.086968037616!2d75.85772581496226!3d22.71956868510733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd29306b3a29%3A0x6b4f74665494191c!2sIndore%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1625634561234!5m2!1sen!2sin"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                        class="opacity-70 group-hover:opacity-100 transition duration-500 grayscale group-hover:grayscale-0"></iframe>
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <span class="text-brand-saffron font-bold text-xs tracking-[0.2em] uppercase mb-2">Find Us</span>
+                    <h2 class="text-4xl font-display font-black mb-6">On The Way.</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">Address</p>
+                            <p class="text-xl font-light">Indore Bypass Road<br>Madhya Pradesh, 453001</p>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">Hours</p>
+                            <p class="text-xl font-light">Mon - Sun: 7:00 AM - 11:00 PM</p>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-gray-400 mb-1">Contact</p>
+                            <a href="tel:+919111527232"
+                                class="text-2xl font-bold hover:text-brand-saffron transition">+91 98765 43210</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="mt-16 flex flex-col md:flex-row justify-between items-center text-xs uppercase tracking-widest text-gray-500 gap-4">
+                <p>&copy; 2025 VEENU Restaurant.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-brand-saffron">Instagram</a>
+                    <a href="#" class="hover:text-brand-saffron">Facebook</a>
+                    <a href="#" class="hover:text-brand-saffron">Zomato</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Concierge Widget -->
+    <div class="fixed bottom-6 right-6 z-[100] flex flex-col items-end gap-2">
+        <div id="ai-modal"
+            class="hidden bg-white rounded-2xl shadow-2xl w-80 md:w-96 overflow-hidden border border-brand-brown/10 mb-4 transition-all duration-300 origin-bottom-right transform scale-95 opacity-0">
+            <div class="bg-brand-brown p-4 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 rounded-full bg-brand-saffron flex items-center justify-center text-white text-xs font-bold">
+                        V</div>
+                    <div>
+                        <h3 class="text-white font-bold text-sm">Veenu Concierge ✨</h3>
+                        <p class="text-white/60 text-[10px] uppercase tracking-wider">Powered by Gemini</p>
+                    </div>
+                </div>
+                <button onclick="toggleChat()" class="text-white/60 hover:text-white transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="chat-history" class="h-80 overflow-y-auto p-4 bg-gray-50 flex flex-col gap-4">
+                <div class="flex gap-3">
+                    <div
+                        class="w-6 h-6 rounded-full bg-brand-brown shrink-0 flex items-center justify-center text-[8px] text-white">
+                        AI</div>
+                    <div
+                        class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100">
+                        Hello! I'm your dining companion. Tell me your mood or dietary preferences, and I'll curate a
+                        perfect 3-course meal for you. 🍛✨
+                    </div>
+                </div>
+            </div>
+
+            <div id="ai-loading" class="hidden px-4 pb-2">
+                <div class="flex gap-1 bg-white p-3 rounded-2xl rounded-tl-none shadow-sm w-fit border border-gray-100">
+                    <div class="w-2 h-2 bg-brand-saffron rounded-full typing-dot"></div>
+                    <div class="w-2 h-2 bg-brand-saffron rounded-full typing-dot"></div>
+                    <div class="w-2 h-2 bg-brand-saffron rounded-full typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="p-3 bg-white border-t border-gray-100 flex gap-2">
+                <input type="text" id="user-input" placeholder="E.g. I want something spicy..."
+                    class="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-brand-saffron transition text-brand-brown">
+                <button onclick="handleSend()"
+                    class="bg-brand-saffron text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-brand-brown transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <button onclick="toggleChat()"
+            class="chat-bubble bg-brand-brown text-white px-6 py-4 rounded-full font-bold shadow-2xl hover:bg-brand-saffron transition duration-300 flex items-center gap-3 group border-2 border-white/10">
+            <span class="text-xl">✨</span>
+            <span class="text-sm uppercase tracking-widest hidden md:inline-block">Curate My Meal</span>
+            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+        </button>
+    </div>
+
+    <script>
+        // --- GEMINI API CONFIGURATION ---
+        // 🔴 SECURITY WARNING: PASTE YOUR GOOGLE GEMINI API KEY BELOW.
+        // Get one here: https://aistudio.google.com/app/apikey
+        const apiKey = "";
+
+        const SYSTEM_PROMPT = `
+        You are the AI Concierge for VEENU, a premium highway dining restaurant in India.
+        Your Goal: Recommend a personalized 3-course meal (Drink/Starter, Main Course, Dessert) based on the user's mood or query.
+        
+        The MENU (Use only these items):
+        - Starters: Paneer Tikka, Hara Bhara Kebab, Corn Cheese Balls.
+        - Mains: Signature Masala Curry, Dal Makhani, Butter Chicken (if asked for non-veg), Garlic Naan, Jeera Rice.
+        - Drinks: The Chai Point Special, Mint Mojito, Fresh Lime Soda.
+        - Desserts: Artisan Desserts (Brownie, Gulab Jamun Cheesecake).
+
+        Style: Sophisticated, warm, and appetizing. Use emojis sparingly.
+        Format your response in Markdown:
+        **Why this fits your mood:** (1 sentence)
+        1. **Starter/Drink:** [Item Name] - [Brief appetizing description]
+        2. **Main:** [Item Name] with [Bread/Rice]
+        3. **Sweet Ending:** [Item Name]
+        
+        If the user asks about something not related to food/menu, politely steer them back to Veenu's dining experience.
+        `;
+
+        // --- UI LOGIC ---
+        const modal = document.getElementById('ai-modal');
+        const chatHistory = document.getElementById('chat-history');
+        const userInput = document.getElementById('user-input');
+        const loadingIndicator = document.getElementById('ai-loading');
+        let isChatOpen = false;
+
+        function toggleChat() {
+            isChatOpen = !isChatOpen;
+            if (isChatOpen) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('scale-95', 'opacity-0');
+                    modal.classList.add('scale-100', 'opacity-100');
+                }, 10);
+            } else {
+                modal.classList.remove('scale-100', 'opacity-100');
+                modal.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+        async function handleSend() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            appendMessage('user', text);
+            userInput.value = '';
+
+            loadingIndicator.classList.remove('hidden');
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            try {
+                const responseText = await callGemini(text);
+                loadingIndicator.classList.add('hidden');
+                appendMessage('ai', responseText);
+            } catch (error) {
+                console.error(error);
+                loadingIndicator.classList.add('hidden');
+                // Use custom error if available, else generic
+                const msg = error.message.includes("API Key")
+                    ? error.message
+                    : "I apologize, but I'm having trouble connecting to the kitchen right now. Please try again in a moment. ✨";
+                appendMessage('ai', msg);
+            }
+        }
+
+        function appendMessage(role, text) {
+            const div = document.createElement('div');
+            div.className = `flex gap-3 ${role === 'user' ? 'flex-row-reverse' : ''}`;
+
+            const avatar = document.createElement('div');
+            avatar.className = `w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[8px] text-white ${role === 'user' ? 'bg-gray-400' : 'bg-brand-brown'}`;
+            avatar.innerText = role === 'user' ? 'YOU' : 'AI';
+
+            const bubble = document.createElement('div');
+            bubble.className = `p-3 rounded-2xl shadow-sm text-sm border ${role === 'user' ? 'bg-brand-saffron text-white rounded-tr-none border-brand-saffron' : 'bg-white text-gray-700 rounded-tl-none border-gray-100 ai-response'}`;
+
+            if (role === 'ai') {
+                if (typeof marked !== 'undefined') {
+                    if (typeof marked === 'function') {
+                        bubble.innerHTML = marked(text);
+                    } else if (typeof marked.parse === 'function') {
+                        bubble.innerHTML = marked.parse(text);
+                    } else {
+                        bubble.innerText = text;
+                    }
+                } else {
+                    bubble.innerText = text;
+                }
+            } else {
+                bubble.innerText = text;
+            }
+
+            div.appendChild(avatar);
+            div.appendChild(bubble);
+            chatHistory.appendChild(div);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        async function callGemini(userText) {
+            // Explicit check for API key
+            if (!apiKey || apiKey.length < 10) {
+                throw new Error("⚠️ System Error: Gemini API Key is missing. Please ask the developer to add their API Key in the source code.");
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ role: "user", parts: [{ text: SYSTEM_PROMPT + "\n\nUser Query: " + userText }] }]
+            };
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error('API Connection Error');
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 0. Initialize Lenis Smooth Scroll
+            if (typeof Lenis !== 'undefined') {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false,
+                    touchMultiplier: 2,
+                });
+
+                function raf(time) {
+                    lenis.raf(time);
+                    requestAnimationFrame(raf);
+                }
+                requestAnimationFrame(raf);
+
+                lenis.on('scroll', ScrollTrigger.update);
+                gsap.ticker.add((time) => {
+                    lenis.raf(time * 1000);
+                });
+                gsap.ticker.lagSmoothing(0);
+
+                // Add Anchor Link Handling
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+
+                        // Fix for href="#" causing SyntaxError in querySelector
+                        if (targetId === '#') {
+                            lenis.scrollTo(0);
+                            return;
+                        }
+
+                        // Ensure targetId is valid selector before querying
+                        try {
+                            const targetElement = document.querySelector(targetId);
+                            if (targetElement) {
+                                lenis.scrollTo(targetElement);
+                            }
+                        } catch (err) {
+                            console.warn("Invalid selector:", targetId);
+                        }
+                    });
+                });
+            }
+
+            // 1. Preloader Removal
+            const loader = document.querySelector('.loader');
+            gsap.to(loader, {
+                opacity: 0,
+                duration: 0.5,
+                delay: 1.5,
+                onComplete: () => loader.style.display = 'none'
+            });
+
+            // 2. Navbar Glass Effect
+            const navInner = document.querySelector('#nav-inner');
+            ScrollTrigger.create({
+                start: 'top -80',
+                end: 99999,
+                onEnter: () => {
+                    navInner.classList.add('bg-white/90', 'shadow-md');
+                    navInner.classList.remove('bg-white/10', 'border-white/20');
+                },
+                onLeaveBack: () => {
+                    navInner.classList.remove('bg-white/90', 'shadow-md');
+                    navInner.classList.add('bg-white/10', 'border-white/20');
+                }
+            });
+
+            // 3. Hero Reveal
+            gsap.to('.reveal-up', {
+                y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power3.out', delay: 1.8
+            });
+
+            // 4. Scroll Reveals
+            gsap.utils.toArray('.reveal-scroll').forEach(section => {
+                gsap.from(section.children, {
+                    y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: 'power3.out',
+                    scrollTrigger: { trigger: section, start: 'top 75%' }
+                });
+            });
+
+            // 5. Clip Image Reveal
+            gsap.utils.toArray('.clip-image-trigger').forEach(trigger => {
+                let img = trigger.querySelector('.clip-image');
+                ScrollTrigger.create({
+                    trigger: trigger,
+                    start: 'top 70%',
+                    onEnter: () => img.classList.add('active')
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
