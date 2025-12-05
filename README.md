@@ -1,9 +1,9 @@
 # veenu-demo-website
-VEENU | Premium Highway Dining Experience 🍛✨
+## VEENU | Premium Highway Dining Experience 🍛✨
 
 <!-- Tip: Upload a screenshot of the Hero section to your repo and link it here -->
 
-View Live Demo https://israrrr.github.io/veenu-demo-website/
+### View Live Demo https://israrrr.github.io/veenu-demo-website/
 
 📖 About The Project
 
@@ -11,9 +11,9 @@ VEENU is an immersive, consumer-facing website designed for a premium highway re
 
 Originally conceptualized as a branding case study, this project was evolved into a fully functional, high-performance landing page. It focuses on translating the physical ambiance of the restaurant into a digital experience through fluid motion, cinematic storytelling, and AI-driven interactivity.
 
-✨ Key Features
+## ✨ Key Features
 
-🎨 Immersive UI/UX
+### 🎨 Immersive UI/UX
 
 Cinematic Hero Section: Video-dominant background with parallax depth.
 
@@ -23,7 +23,7 @@ Theatrical Reveals: Custom "Curtain" preloader and scroll-triggered element reve
 
 Interactive Menu: Hover-responsive grids showcasing signature dishes.
 
-🤖 AI Concierge (Powered by Gemini)
+### 🤖 AI Concierge (Powered by Gemini)
 
 Virtual Sommelier: Integrated a floating chat widget powered by the Google Gemini API.
 
@@ -31,7 +31,7 @@ Context-Aware: The AI is trained on Veenu's specific menu (Curries, Chai, Desser
 
 Personalized Recommendations: Users can describe their mood (e.g., "I want something spicy" or "Comfort food"), and the AI curates a 3-course meal plan.
 
-🛠 Technical Highlights
+### 🛠 Technical Highlights
 
 Responsive Design: Fully fluid layout using Tailwind CSS.
 
@@ -39,7 +39,7 @@ Performance Optimized: Lazy loading strategies and optimized asset handling.
 
 Glassmorphism: Dynamic navbar that adapts to scroll position.
 
-🧰 Tech Stack
+### 🧰 Tech Stack
 
 HTML5
 
@@ -116,12 +116,12 @@ AI Concierge
 This project uses a client-side API key injection for demonstration purposes. In a production environment, API calls should be routed through a backend server to keep the API key hidden from the frontend.
 -->
 
-👤 Author
+## 👤 Author
 
-Israr Ahmed
+### Israr Ahmed
 
-Portfolio: LinkTree https://linktr.ee/israr._.ahmed
+### Portfolio: LinkTree https://linktr.ee/israr._.ahmed
 
-Email: i.israr.ahmed08@gmail.com
+### Email: i.israr.ahmed08@gmail.com
 
 If you liked this project, please give it a ⭐!
