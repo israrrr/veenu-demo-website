@@ -449,7 +449,7 @@
                         V</div>
                     <div>
                         <h3 class="text-white font-bold text-sm">Veenu Concierge ✨</h3>
-                        <p class="text-white/60 text-[10px] uppercase tracking-wider">Powered by Gemini</p>
+                        <!--<p class="text-white/60 text-[10px] uppercase tracking-wider">Powered by Gemini</p>-->
                     </div>
                 </div>
                 <button onclick="toggleChat()" class="text-white/60 hover:text-white transition">
@@ -615,7 +615,7 @@
         async function callGemini(userText) {
             // Explicit check for API key
             if (!apiKey || apiKey.length < 10) {
-                throw new Error("⚠️ System Error: Gemini API Key is missing. Please ask the developer to add their API Key in the source code.");
+                throw new Error("⚠️ System Error: API Key is missing. Please ask the developer to add their API Key in the source code.");
             }
 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -738,5 +738,6 @@
         });
     </script>
 </body>
+
 
 </html>
