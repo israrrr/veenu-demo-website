@@ -5,7 +5,7 @@
 
 ### View Live Demo https://israrrr.github.io/veenu-demo-website/
 
-📖 About The Project
+## 📖 About The Project
 
 VEENU is an immersive, consumer-facing website designed for a premium highway restaurant located on the Indore Bypass.
 
