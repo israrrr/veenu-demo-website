@@ -3,7 +3,7 @@ VEENU | Premium Highway Dining Experience 🍛✨
 
 <!-- Tip: Upload a screenshot of the Hero section to your repo and link it here -->
 
-View Live Demo <!-- Add your Netlify/Vercel/GitHub Pages link here -->
+View Live Demo https://israrrr.github.io/veenu-demo-website/
 
 📖 About The Project
 
@@ -108,7 +108,7 @@ AI Concierge
 
 
 
-<!-- Tip: Take screenshots of your site and link them here -->
+
 
 ⚠️ Note on Security
 
@@ -118,7 +118,7 @@ This project uses a client-side API key injection for demonstration purposes. In
 
 Israr Ahmed
 
-Portfolio: LinkTree
+Portfolio: LinkTree https://linktr.ee/israr._.ahmed
 
 Email: i.israr.ahmed08@gmail.com
 
