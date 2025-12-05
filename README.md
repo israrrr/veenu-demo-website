@@ -53,6 +53,7 @@ Google Gemini API
 
 Lenis (Smooth Scrolling)
 
+<!--
 🚀 Getting Started
 
 To run this project locally, follow these steps:
@@ -103,7 +104,7 @@ Simply open the HTML file in your browser, or use the "Live Server" extension in
 Hero Section
 
 AI Concierge
-
+-->
 
 
 
