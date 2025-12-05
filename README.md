@@ -104,7 +104,7 @@ Simply open the HTML file in your browser, or use the "Live Server" extension in
 Hero Section
 
 AI Concierge
--->
+
 
 
 
@@ -114,6 +114,7 @@ AI Concierge
 ⚠️ Note on Security
 
 This project uses a client-side API key injection for demonstration purposes. In a production environment, API calls should be routed through a backend server to keep the API key hidden from the frontend.
+-->
 
 👤 Author
 
