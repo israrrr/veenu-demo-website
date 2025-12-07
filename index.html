@@ -446,10 +446,10 @@
                 <div class="flex items-center gap-3">
                     <div
                         class="w-8 h-8 rounded-full bg-brand-saffron flex items-center justify-center text-white text-xs font-bold">
-                        V</div>
+                        VC</div>
                     <div>
                         <h3 class="text-white font-bold text-sm">Veenu Concierge ✨</h3>
-                        <p class="text-white/60 text-[10px] uppercase tracking-wider">Powered by Gemini</p>
+                        <!--<p class="text-white/60 text-[10px] uppercase tracking-wider">Powered by Gemini</p>-->
                     </div>
                 </div>
                 <button onclick="toggleChat()" class="text-white/60 hover:text-white transition">
@@ -464,7 +464,7 @@
                 <div class="flex gap-3">
                     <div
                         class="w-6 h-6 rounded-full bg-brand-brown shrink-0 flex items-center justify-center text-[8px] text-white">
-                        AI</div>
+                        WE</div>
                     <div
                         class="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm text-sm text-gray-700 border border-gray-100">
                         Hello! I'm your dining companion. Tell me your mood or dietary preferences, and I'll curate a
@@ -584,11 +584,11 @@
             div.className = `flex gap-3 ${role === 'user' ? 'flex-row-reverse' : ''}`;
 
             const avatar = document.createElement('div');
-            avatar.className = `w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[8px] text-white ${role === 'user' ? 'bg-gray-400' : 'bg-brand-brown'}`;
-            avatar.innerText = role === 'user' ? 'YOU' : 'AI';
+            avatar.className = `w-6 h-6 rounded-full shrink-0 flex items-center justify-center text-[8px] text-white ${role === 'user' ? 'bg-brand-brown' : 'bg-brand-brown'}`;
+            avatar.innerText = role === 'user' ? 'YOU' : 'WE';
 
             const bubble = document.createElement('div');
-            bubble.className = `p-3 rounded-2xl shadow-sm text-sm border ${role === 'user' ? 'bg-brand-saffron text-white rounded-tr-none border-brand-saffron' : 'bg-white text-gray-700 rounded-tl-none border-gray-100 ai-response'}`;
+            bubble.className = `p-3 rounded-2xl shadow-sm text-sm border ${role === 'user' ? 'bg-brand-saffron text-white rounded-tl-none border-gray-100 ai-response' : 'bg-white text-gray-700 rounded-tl-none border-gray-100 ai-response'}`;
 
             if (role === 'ai') {
                 if (typeof marked !== 'undefined') {
@@ -615,7 +615,7 @@
         async function callGemini(userText) {
             // Explicit check for API key
             if (!apiKey || apiKey.length < 10) {
-                throw new Error("⚠️ System Error: Gemini API Key is missing. Please ask the developer to add their API Key in the source code.");
+                throw new Error("⚠️ System Error: API Key is missing. Please ask the developer to add their API Key in the source code.");
             }
 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
@@ -739,6 +739,4 @@
     </script>
 </body>
 
-
 </html>
-
